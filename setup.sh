@@ -23,7 +23,7 @@ echo '{
 
 
 npm install express
-npm install nodemon -D
+npm install nodemon dotenv -D
 
 
 # Crear el archivo src/server.js (servidor Express)
@@ -61,12 +61,19 @@ export default Server;
 
 # Crear el archivo src/index.js (punto de entrada)
 echo 'import Server from "./server.js";
+//import 'dotenv/config'
 
-const port = 3000;
+const port =  process.env.PORT || 3000;
 const server = new Server(port);
 server.start();
 ' > src/index.js
 
+
+# Crear el archivo variables de entorno
+echo '{
+  PORT=1717
+  URI_DATABASE="Localhost"
+}' > .env
 
 
 
