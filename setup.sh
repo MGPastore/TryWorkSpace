@@ -12,6 +12,7 @@ npm init -y
 # Crear el archivo package.json
 echo '{
   "name": "ApiV1",
+   "type": "module",
   "version": "1.0.0",
   "description": "A simple Express project",
   "main": "src/index.mjs",
