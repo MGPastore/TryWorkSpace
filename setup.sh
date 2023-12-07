@@ -22,7 +22,7 @@ echo '{
 }' > package.json
 
 
-npm install express
+npm install express mongoose bcryptjs  passport passport-local express-session connect-mongo
 npm install nodemon dotenv -D
 
 

@@ -1,14 +1,40 @@
 import express from "express";
 import Router from "./router.js";
 import connectToDatabase from './driver.js';
+import passport from "passport";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+
+
+//const __dirname = dirname(fileURLToPath(import.meta.url));
+
 class Server {
-  constructor(port) {
+  constructor(port, URI) {
     this.app = express();
     this.port = port;
+    this.DATABASE_URI = URI;
+
 
     this.configureMiddleware();
     this.configureRoutes();
+    this.Login();
   }
+
+  Login() {
+    this.app.use(
+      session({
+        secret: "secret",
+        resave: true,
+        saveUninitialized: true,
+        store: MongoStore.create({ mongoUrl: this.DATABASE_URI }),
+      })
+    );
+    
+    this.app.use(passport.initialize());
+    this.app.use(passport.session());
+    
+  }
+
 
   configureMiddleware() {
     this.app.use(express.json());
