@@ -1,5 +1,4 @@
 import Server from "./server.js";
-import "./config/passport.js"
 import 'dotenv/config'
 
 const port =  process.env.PORT || 3000;

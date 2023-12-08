@@ -4,6 +4,7 @@ import connectToDatabase from './driver.js';
 import passport from "passport";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import "./config/passport.js"
 
 
 //const __dirname = dirname(fileURLToPath(import.meta.url));

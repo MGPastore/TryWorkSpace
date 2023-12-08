@@ -28,11 +28,14 @@ npm install nodemon dotenv -D
 
 # Crear el archivo src/server.js (servidor Express)
 echo 'import express from "express";
+import connectToDatabase from './driver.js';
+
 
 class Server {
-  constructor(port) {
+  constructor(port,URI) {
     this.app = express();
     this.port = port;
+    this.DATABASE_URI = URI;
 
     this.configureMiddleware();
     this.configureRoutes();
@@ -50,6 +53,7 @@ class Server {
   }
 
   start() {
+    const { db } = await connectToDatabase(DATABASE_URI);
     this.app.listen(this.port, () => {
       console.log(`Server is running on http://localhost:${this.port}`);
     });
@@ -64,7 +68,8 @@ echo 'import Server from "./server.js";
 //import 'dotenv/config'
 
 const port =  process.env.PORT || 3000;
-const server = new Server(port);
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/myAppDB";
+const server = new Server(port,MONGODB_URI);
 server.start();
 ' > src/index.js
 
@@ -72,9 +77,32 @@ server.start();
 # Crear el archivo variables de entorno
 echo '{
   PORT=1717
-  URI_DATABASE="Localhost"
+  MONGODB_URI="mongodb://localhost/myAppDB"
 }' > .env
 
+
+# Crear el archivo driver
+echo '// db.js
+import mongoose from 'mongoose';
+
+const connectToDatabase = async (mongoURL) => {
+  try {
+    const mongoURL = this.mongoURL;
+
+    await mongoose.connect(mongoURL);    
+    console.log("Database OK")
+    const { connection: db } = mongoose;   
+    return { mongoose, db };
+  } 
+  
+  catch (error) {
+    console.error('Error al conectar con MongoDB:', error);
+    throw error;
+  }
+};
+
+export default connectToDatabase;
+' > driver.js
 
 
 echo "Proyecto creado exitosamente. Ejecute 'npm start' para iniciar el servidor."
