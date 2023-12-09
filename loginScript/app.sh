@@ -40,7 +40,8 @@ echo '{
   }
 }' > package.json
 
-npm install express mongoose bcryptjs passport passport-local express-session connect-mongo nodemon dotenv -D
+npm install express mongoose bcryptjs passport passport-local express-session connect-mongo 
+npm install nodemon dotenv -D
 
 echo 'import express from "express";
 import connectToDatabase from "./driver.js";
